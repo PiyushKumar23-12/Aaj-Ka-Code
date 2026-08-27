@@ -2,33 +2,41 @@ class Solution {
   public:
     int maxArea(vector<vector<int>>& mat) {
         // code here
+        
         int n=mat.size();
+        
         int m=mat[0].size();
+        
         
         int ans=0;
         
         vector<int>height(m,0);
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(mat[i][j]==1){
-                    height[j]+=1;
+        
+        //n *(mlogm + m+ m);
+        for(int row=0;row<n;row++){
+            for(int col=0;col<m;col++){
+                if(mat[row][col]==1){
+                    //height increases
+                    height[col]++;
                 }
                 else{
-                    height[j]=0;
+                    //reset the height
+                    height[col]=0;
                 }
             }
             
+            // SC is 2m
             vector<int>temp=height;
             
             sort(temp.rbegin(),temp.rend());
             
-
-            for(int k=0;k<m;k++){
-                int w=k+1;
-                int h=temp[k];
-                ans=max(ans,h*w);
+            for(int col=0;col<m;col++){
+                int area=temp[col]*(col+1);
+                ans=max(ans,area);
             }
+            
         }
         return ans;
+        
     }
 };
